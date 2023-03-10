@@ -12,7 +12,7 @@ import prob_type_well # Generacion de pozo tipo probabilistico
 favicon = Image.open("Favicon.png")
 
 # Configuracion de la pagina
-st.set_page_config(page_title = "Type Well Analysis", page_icon = favicon,)
+st.set_page_config(page_title = "Probabilistic Type Well Analysis", page_icon = favicon,)
 
 # CSS para ocultar menu de Streamlit
 hide_menu_style = """
@@ -42,7 +42,7 @@ def to_excel(df):
   return processed_data
 
 # Titulo de la pagina
-st.write("## Type Well Analysis")
+st.write("## Probabilistic Type Well Analysis")
 
 # Descripcion breve
 st.write('This app creates a traditional decline analysis for the average of a group of wells within a search radius.')
@@ -101,7 +101,7 @@ if production_data is not None and well_locations is not None:
     Y = st.number_input('Y Coordinate (m):', value = Y_default)
   with col2:
     R = st.number_input('Search Radius (m):', value = R_default)
-    calc_type = st.selectbox('Calculation Type', ('Only Active Wells', 'All Wells'))
+    calc_type = st.selectbox('Wells Include in Calculations', ('All Wells', 'Only Active Wells'))
 
   # Generamos el pozo tipo
   results = prob_type_well.type_well(PRD_data, locations, X, Y, R, calc_type)
@@ -180,12 +180,14 @@ if production_data is not None and well_locations is not None:
   # Agregamos el selector de opciones para el grafico del pozo tipo
   with col12:
     plot_type = st.selectbox('Plot Options', ('Only Type Well', 'Show All Wells'))
+  with col13:
+    plot_color = st.selectbox('Color Management', ('All Unique', 'Greyscale'))
 
   # Dependiendo de la opcion seleccionada, asignamos un grafico a una variable
   if plot_type == 'Only Type Well':
     plot2 = prob_type_well.plot_type_well(type_well_data)
   else:
-    plot2 = prob_type_well.plot_all_wells(type_well_data, sync_wells_data) 
+    plot2 = prob_type_well.plot_all_wells(type_well_data, sync_wells_data, plot_color) 
 
   # Mostramos el grafico del pozo tipo
   st.pyplot(plot2)

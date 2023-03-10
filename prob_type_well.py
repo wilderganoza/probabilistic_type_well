@@ -295,13 +295,13 @@ def plot_type_well(data):
 
   # Añadimos las curvas con la producción promedio y el ajuste
   plt.plot(data.index, data['Average P10'], color='green', label='Average P10')
-  plt.plot(data.index, data['Adjusted P10'], color='green', linewidth=2, label='Adjusted P10')
+  plt.plot(data.index, data['Adjusted P10'], color='green', linestyle = '--', linewidth=2, label='Adjusted P10')
 
   plt.plot(data.index, data['Average P50'], color='red', label='Average P50')
-  plt.plot(data.index, data['Adjusted P50'], color='red', linewidth=2, label='Adjusted P50')
+  plt.plot(data.index, data['Adjusted P50'], color='red', linestyle = '--', linewidth=2, label='Adjusted P50')
 
   plt.plot(data.index, data['Average P90'], color='blue', label='Average P90')
-  plt.plot(data.index, data['Adjusted P90'], color='blue', linewidth=2, label='Adjusted P90')
+  plt.plot(data.index, data['Adjusted P90'], color='blue', linestyle = '--', linewidth=2, label='Adjusted P90')
 
   # Configuración secundaria del gráfico
   plt.grid(which ='both') # Habilitamos la cuadricula
@@ -319,32 +319,37 @@ def plot_type_well(data):
   return fig
 
 # Funcion que grafica el pozo tipo, la curva promedio y la produccion de los pozos seleccionados
-def plot_all_wells(type_well_data, time_zero_wells):
+def plot_all_wells(type_well_data, time_zero_wells, plot_color):
   # Creamos la figura y definimos sus dimensiones
   fig, ax = plt.subplots(figsize=(16, 9))
   
   # Añadimos las curvas con la producción promedio y el ajuste
-  plt.plot(type_well_data.index, type_well_data['Average P10'], color='green', label='Average P10')
-  plt.plot(type_well_data.index, type_well_data['Adjusted P10'], color='green', linewidth=2, label='Adjusted P10')
+  plt.plot(type_well_data.index, type_well_data['Average P10'], color='green', label='Average P10', zorder = 3)
+  plt.plot(type_well_data.index, type_well_data['Adjusted P10'], color='green', linestyle = '--', linewidth=2, label='Adjusted P10', zorder = 3)
 
-  plt.plot(type_well_data.index, type_well_data['Average P50'], color='red', label='Average P50')
-  plt.plot(type_well_data.index, type_well_data['Adjusted P50'], color='red', linewidth=2, label='Adjusted P50')
+  plt.plot(type_well_data.index, type_well_data['Average P50'], color='red', label='Average P50', zorder = 3)
+  plt.plot(type_well_data.index, type_well_data['Adjusted P50'], color='red', linestyle = '--', linewidth=2, label='Adjusted P50', zorder = 3)
 
-  plt.plot(type_well_data.index, type_well_data['Average P90'], color='blue', label='Average P90')
-  plt.plot(type_well_data.index, type_well_data['Adjusted P90'], color='blue', linewidth=2, label='Adjusted P90')
+  plt.plot(type_well_data.index, type_well_data['Average P90'], color='blue', label='Average P90', zorder = 3)
+  plt.plot(type_well_data.index, type_well_data['Adjusted P90'], color='blue', linestyle = '--', linewidth=2, label='Adjusted P90', zorder = 3)
 
   # Añadimos una curva para cada pozo escogido
   for column in time_zero_wells:
-    #plt.plot(average["Time"], type_well_data[column], marker = '^', linestyle = '', markersize = 4, label = column)
-    plt.plot(time_zero_wells.index, time_zero_wells[column], marker = '^', linestyle = '', markersize = 4, label = column)
+    if plot_color == 'All Unique':
+      plt.plot(time_zero_wells.index, time_zero_wells[column], marker = '^', linestyle = '', markersize = 4, label = column)
+    else:
+      plt.plot(time_zero_wells.index, time_zero_wells[column], linestyle = '-', color = 'darkgrey')  
 
   # Estimamos la cantidad de columnas para la leyenda
-  if len(time_zero_wells.axes[1]) <= 30:
-    ncol = 1
-  elif len(time_zero_wells.axes[1]) > 30 and len(time_zero_wells.axes[1]) <= 60:
-    ncol = 2
+  if plot_color == 'All Unique':
+    if len(time_zero_wells.axes[1]) <= 30:
+      ncol = 1
+    elif len(time_zero_wells.axes[1]) > 30 and len(time_zero_wells.axes[1]) <= 60:
+      ncol = 2
+    else:
+      ncol = 3
   else:
-    ncol = 3
+    ncol = 1
 
   # Configuración secundaria del gráfico
   plt.grid(which = 'both') # Habilidamos la cuadricula

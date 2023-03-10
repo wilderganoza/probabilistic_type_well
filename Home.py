@@ -9,7 +9,7 @@ from pyxlsb import open_workbook as open_xlsb #
 favicon = Image.open("Favicon.png")
 
 # Configuracion de la pagina
-st.set_page_config(page_title = "Type Well Analysis", page_icon = favicon,)
+st.set_page_config(page_title = "Probabilistic Type Well Analysis", page_icon = favicon,)
 
 # CSS para ocultar menu
 hide_menu_style = """
