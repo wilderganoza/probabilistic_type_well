@@ -1,0 +1,8 @@
+numpy
+matplotlib
+pandas
+Pillow
+pyxlsb
+xlsxwriter
+openpyxl
+scipy
